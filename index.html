@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
+<title>ProCam</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#000;color:#fff;font:13px system-ui,sans-serif;overflow:hidden}
+body{display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#000}
+#cv{max-width:100%;max-height:100%;display:block}
+#v{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+#grid{position:absolute;inset:0;pointer-events:none;background:
+ linear-gradient(#fff3,#fff3) 33.33% 0/1px 100% no-repeat,linear-gradient(#fff3,#fff3) 66.66% 0/1px 100% no-repeat,
+ linear-gradient(#fff3,#fff3) 0 33.33%/100% 1px no-repeat,linear-gradient(#fff3,#fff3) 0 66.66%/100% 1px no-repeat}
+.hud{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;text-shadow:0 1px 3px #000}
+#sharp{width:90px;height:6px;background:#0008;border-radius:3px;overflow:hidden;margin-top:4px}
+#sharpbar{height:100%;width:0;background:#4cd964;transition:width .15s}
+#hist{width:96px;height:40px;background:#0007;border-radius:4px}
+#ring{position:absolute;width:70px;height:70px;border:2px solid #ffb300;border-radius:10px;opacity:0;transform:translate(-50%,-50%) scale(1.4);pointer-events:none;transition:all .25s}
+#ring.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#toast{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:18px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90%;text-align:center}
+#toast.on{opacity:1}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#pro{display:none;background:#111e;padding:8px 14px;max-height:34vh;overflow:auto}
+#pro.on{display:block}
+.row{display:flex;align-items:center;gap:10px;margin:6px 0}.row label{width:120px;color:#bbb}.row input{flex:1}.row output{width:56px;text-align:right;font-variant-numeric:tabular-nums}
+#bar{background:#000;padding:8px 10px 12px}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid #555;background:#1b1b1b;color:#ddd;border-radius:14px;padding:5px 11px;font-size:12px}
+.chip.on{background:#ffb300;border-color:#ffb300;color:#000;font-weight:600}.chip:disabled{opacity:.3}
+#main{display:flex;align-items:center;justify-content:space-around}
+#shutter{width:72px;height:72px;border-radius:50%;border:4px solid #fff;background:#fff;box-shadow:inset 0 0 0 5px #000}
+#shutter:active{transform:scale(.92)}#shutter:disabled{opacity:.5}
+.sq{width:50px;height:50px;border-radius:12px;border:1px solid #555;background:#1b1b1b center/cover;color:#fff;font-size:20px}
+button{font:inherit;cursor:pointer}
+</style></head><body>
+<div id="stage">
+ <canvas id="cv"></canvas><video id="v" playsinline muted autoplay></video>
+ <div id="grid"></div><div id="ring"></div><div id="flash"></div>
+ <div class="hud"><div><div id="res">—</div><div id="sharp"><div id="sharpbar"></div></div><div style="font-size:11px;color:#ccc;margin-top:2px">Netteté</div></div><canvas id="hist" width="96" height="40"></canvas></div>
+ <div id="toast"></div>
+</div>
+<div id="pro"></div>
+<div id="bar">
+ <div class="chips">
+  <button class="chip" data-af="continuous">AF-C</button><button class="chip" data-af="single-shot">AF-S</button><button class="chip" data-af="manual">MF</button>
+  <button class="chip on" id="tStab">Stabilisation</button><button class="chip" id="tPeak">Peaking</button><button class="chip on" id="tGrid">Grille</button><button class="chip" id="tPro">PRO</button>
+ </div>
+ <div id="main">
+  <button class="sq" id="thumb"></button>
+  <button id="shutter" aria-label="Déclencher"></button>
+  <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><button class="chip on" id="fmt">JPG</button><button class="sq" id="flip" style="height:36px;font-size:16px">⟲</button></div>
+ </div>
+</div>
+<script src="app.js"></script>
+</body></html>
